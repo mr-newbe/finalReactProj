@@ -1,5 +1,6 @@
 import GLogin from './components/Glogin';
 import { Blog } from './components/Blog';
+import Chatting from './components/Chat';
 import { 
   RecoilRoot,
   atom, 
@@ -13,6 +14,7 @@ function App() {
     <RecoilRoot>
       <GLogin/>
       <Blog/>
+      <Chatting/>
     </RecoilRoot>
     
   );
