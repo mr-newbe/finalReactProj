@@ -3,7 +3,7 @@ import Axios from 'axios';
 import { access_token } from './Glogin';
 //client id : 885177554577-t14gs23qtksh096d0huoihsb1fdors76.apps.googleusercontent.com
 //client security pw : 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
-import {gapi} from 'gapi-script';
+
 
 import { 
   RecoilRoot,
@@ -13,7 +13,7 @@ import {
   useSetRecoilState 
 } from "recoil";
 
-
+import {gapi} from 'gapi-script';
 export function Blog(){
   function authenticate(){
     return gapi.auth2.getAuthInstance()

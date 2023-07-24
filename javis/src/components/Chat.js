@@ -62,7 +62,7 @@ function Chatting(){
     
   }
 
-
+  
   return(
     <>
       <button onClick={()=>talkWithAi()}>axios chat gpt 요청</button>
@@ -79,6 +79,8 @@ function Chatting(){
           {response}
         </p>
       </div>
+          
+      
     </>
   )
 }
