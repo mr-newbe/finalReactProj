@@ -95,6 +95,7 @@ export function FirstStep(){
       <video loop autoPlay muted>
         <source src="MandarinDuck.mp4" type="video/mp4"/>
       </video>
+      
 
       
 
@@ -104,6 +105,8 @@ export function FirstStep(){
         <div>
           이곳에는 날씨 상황에 대한 그림이 들어올 예정입니다.
         </div>
+        
+        <img src="https://yogiweather.netlify.app/static/media/icon_night.f8d048e29abde58b26f1.gif" className="imgSky"/>
         <div>
           이곳에는 일출, 일몰시간이 들어올 예정입니다.
         </div>

@@ -33,10 +33,10 @@ export function TimeListener(){
   
   return(
     <div>
-      <div>Date</div>
-      <span>{time.toLocaleDateString()}</span>
-      <div>Clock</div>
-      <span>{time.toLocaleTimeString()}</span>
+      
+      <span id='date'>{time.toLocaleDateString()}</span>
+      <br/>
+      <span id='time'>{time.toLocaleTimeString()}</span>
     </div>
   )
   
