@@ -46,11 +46,12 @@ export default function Weather(){
   //위경도 ==> xy좌표
   const lat = exLoc.Lat;
   const lon = exLoc.Lon;
-
+  
   var xy = dfs_xy_conv("toXY",lat, lon);
   
   //일출, 일몰정보 요청하는 api
   function sunriseAPI(){
+    
     var url = 'http://apis.data.go.kr/B090041/openapi/service/RiseSetInfoService/getLCRiseSetInfo';
     var queryParams = '?'+encodeURIComponent('longitude')+`=${lon}`;
     queryParams += '&'+encodeURIComponent('latitude')+`=${lat}`;
@@ -92,6 +93,7 @@ export default function Weather(){
   }
 
   function sunfunc(ans){
+    console.log(ans);
     const sunRiseCtn = document.getElementById('sunRiseCtn');
 
     const sunRiseTime = ans.sunrise;
@@ -186,7 +188,7 @@ export default function Weather(){
       <button onClick={()=>requestWeather()}>클릭하여 기상정보 가져오기</button>
       <div id="timeCtn"></div>
 
-      <button onClick={sunriseAPI()}>일출/일몰정보 가져오기</button>
+      <button onClick={()=>sunriseAPI()}>일출/일몰정보 가져오기</button>
       <div id="sunRiseCtn"></div>
     </>
   )

@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@google-cloud/local-auth": "^2.1.0",
+    "@notionhq/client": "^2.2.9",
     "@react-oauth/google": "^0.11.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -14,6 +15,8 @@
     "gapi": "^0.0.3",
     "gapi-script": "^1.2.0",
     "googleapis": "^105.0.0",
+    "index.js": "^0.0.3",
+    "node": "^20.5.0",
     "openai": "^3.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
