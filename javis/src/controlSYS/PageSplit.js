@@ -82,6 +82,12 @@ export function FirstStep(){
   const [chPg, setChPg] = useRecoilState(sectionSep); 
 
   function chpgBtn(){
+    let oneShow = document.getElementById("one");
+    let twoShow = document.getElementById("two");
+    console.log(oneShow);
+    if(oneShow===null){
+      return console.error;
+    }
     setChPg(2);
     oneShow.style = "display:none";
     twoShow.style = "display:block";
@@ -101,12 +107,15 @@ export function FirstStep(){
 
       <div className="oneUp">
         <TimeListener/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
         <Weather/>
-        <div>
-          이곳에는 날씨 상황에 대한 그림이 들어올 예정입니다.
-        </div>
         
-        <button onClick={()=>chpgBtn()}>이 버튼으로 다음 페이지로의 이동이 활성화될 것입니다.</button>
+        <br/>
+        <br/>
+        <button id="pgOneBtn" onClick={()=>chpgBtn()}>이 버튼으로 다음 페이지로의 이동이 활성화될 것입니다.</button>
       </div>
     </div>
   )

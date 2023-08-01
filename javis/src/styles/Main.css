@@ -17,7 +17,7 @@
   color: cornsilk;
 
 
-  margin-top:-400px;
+  margin-top:-350px;
     
 }
 
@@ -50,18 +50,42 @@ video{
 }
 
 #timeCtn{
-  background-color: rgba(255,255,255,0.5);
+  
   border-radius: 20px;
-  width: 50%;
+  width: 80%;
   height: 180px;
   overflow: auto;
-  margin-left: 25%;
+  margin-left: 10%;
 
   font-size: 15px;
 
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+#timeCtn::-webkit-scrollbar {
+  width: 10px;
+}
+
+#timeCtn::-webkit-scrollbar-thumb {
+  background-color: #2f3542;
+  border-radius: 10px;
+  
+}
+
+#timeCtn::-webkit-scrollbar-track {
+  background-color: grey;
+  border-radius: 10px;
+  box-shadow: inset 0px 0px 5px white;
+}
+
+#bigtimeCtn{
+  background-color: rgba(255,255,255,0.5);
+  border-radius: 20px;
+  width: 60%;
+  height: 180px;
+  margin-left: 20%;
 }
 
 #sunRiseCtn{
@@ -82,6 +106,23 @@ video{
 
   
   
+}
+
+#pgOneBtn{
+  height: 50px;
+  width: 400px;
+  background-color: aliceblue;
+  font-size: 15px;
+  border-radius: 16px;
+  font-style:oblique;
+
+
+}
+
+#pgOneBtn:hover{
+  border: 10px;
+  border-color: blue;
+  background-color: aqua;
 }
 
 .rise{

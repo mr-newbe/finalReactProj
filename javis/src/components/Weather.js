@@ -89,6 +89,13 @@ export default function Weather(){
 
 
   function requestWeather(){
+    if(lat===undefined || xy.lat===''){
+      console.log("치명적 에러")
+      return console.error;
+    }
+    console.log(lat);
+    console.log(xy);
+
     var url = 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst'; /*URL*/
     var queryParams = '?' + encodeURIComponent('serviceKey') + `=${weatherKey}`; /*Service Key*/
     queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /**/
@@ -147,17 +154,18 @@ export default function Weather(){
   function parsing(ans){
     const saveCtn = document.getElementById('timeCtn');
     saveCtn.innerHTML = '';
+    console.log(ans);
     if(ans.status!==200){
       return alert('weather request Error!')
     }
     var timeContent='';
     var obj = ans.data.response.body.items.item;
     //obj = JSON.parse(obj.body);
-    console.log(obj);
+    //console.log(obj);
 
     const categotyJS = ['SKY','PTY','REH','TMP'];
     const obj2 = obj.filter((data)=>categotyJS.includes(data.category))
-    console.log(obj2);
+    //console.log(obj2);
     for(var i=0;i<22;i++){
 
       //날씨 경보
@@ -210,7 +218,7 @@ export default function Weather(){
       var rehShow = obj2[i*4+3].fcstValue;
 
       var tmpShow = obj2[i*4].fcstValue;
-      console.log(i*12);
+      //console.log(i*12);
 
       
       const arr = [];
@@ -235,23 +243,31 @@ export default function Weather(){
     
     saveCtn.innerHTML += timeContent;
     setPgRender((pgRender)=>!pgRender);
-    console.log(saveCtn.innerHTML);
+    //console.log(saveCtn.innerHTML);
     
   }
+
+  useEffect(()=>{
+    console.log(lat);
+    
+    if(lat!==undefined){
+      requestWeather();
+    }
+      
+  },[lat]);
 
 
   
   
   return(
     <>
-      <button onClick={()=>requestWeather()}>클릭하여 기상정보 가져오기</button>
-      <div id="timeCtn"></div>
+      <div id="bigtimeCtn">
+        <div id="timeCtn"></div>
+      </div>
+      <br/>
+      <br/>
+      <br/>
 
-    
-      <br/>
-      <br/>
-      <br/>
-      
       <div id="sunText">
         <div>
           <img className="rise" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAABmJLR0QA/wD/AP+gvaeTAAAElUlEQVR4nO2dz48URRSAv1nYBROUDSjClQgSDxIikKgcuAKJJO6y/BB0TYigePMiciDGxMTwR5AQEy8cuOFNjngBDybuhriSAMvGC8lClsAMi4eqkZ7uaqa7p6vrdc/7ksrO7E73e1PfVlX/rIZmcMQWRQDTQMeW6cC5DD3TwDPguS3LwKmgGQ0xcRkqJSBHMF1UXEa3PAM+C5bdkHGYl8uISvk0UI5Dw2GgTX8Z3dJBpXjjOMmW4RpD4r/r2GWVEpki2TKWgdMkhXyOW8qJyrNuKC4Z0UE7LgTcg762lBI4RFJGh94tKJcQMFJcy6qUgkzirtD4IJ0mBNwbAR3gE29ZN5SsMuDlQkClDEyajLRBuZ8QcI9DHeBYaVk3lAngKfn6/SxCIH08UikpHCRZYW36H1bPKgTcA30b+Khw1g1mlmRFTWVYLo8QcHdfMwXybTx/0CvjUMbl8gqBZPd1M1emQ8JuTMXMkK8LKSIEG2MWuAHsyrGcV1qhEyiBuIRaf6eR0AkovagQYagQYagQYagQYagQYagQYagQYagQYagQYagQYagQYagQYagQYagQYagQYagQYagQYagQYagQYTRByO3I63+CZaH8zz7gri37AueiKIqiKIqiKIqiKIqiKIqiDMIoNb+3sElMAQ+ARbLfSq14ZIEXt0TPB85lYJrQzPW2aMUfKkQYKkQYKkQYKkQYKkQYKkQYKkQYPoSMAR8Ab3hYtxQ2ATupwT/0SuA6Zu/5EWaWUd8UnVGuKBPAko31K8KlvE9yIstJzzGrFOKaU/hdzzEHYhPwmGqlzEVizXmM45KxBLzuMWYpTOCeG9eXlCqufnfJaFNNl1wKaTNU13EW6bTvcjRkUkVogpTGyOhSZymNk9GljlIaK6NL2qDoe5O4CHXKdSBcX/QJsCVkUjG2kmwZlcpYWVUg4LL9+Usk7hiwHbiVYz3jwF5gB7AN2Gh/tjBzuS9g5o+/AVzDXJGSle2YS4q6dLupy+6PN4NJTMt4DtwB1mVYZjXmQWC/ke0pn9F+/xrmubmvZIiz3ubUbb2N66bS2IIZOPvJGAO+ofdSn6Jlwa5rrE/MdTY3SV2pCD4k+ZCXMsqMXbeSkRZwjvSu6RFwBfgCU7GbMd3Ravt6j/3bFftZ1zrawHfU/BquKlgBXMRdiXPASWBVjvWtsstED0BGy0UbU3EwAvxMstKWgDP0bv3kZRT4mhfnMaLlEsLPaYTiR5KVNYvZFC2Ld4A/HXF+KDFGIziAefpztJJuYvY5ymYcs48SjbUM7PcQq5aMY65aj28JbfAYcwPJLbh7wFqPMWvDBZJjxtYK4r5N8uzmTxXEFc2bJCvl2wrjn43Ffozflime7+mtkL+o9vjaqI0ZzeF8hfFF0cJMyRetjK8C5HEmlsPfDOkO43v0VsQi8GqAPF6zsaO57AiQBxB2h2hv7P1V4GGAPBYxF7xFiedWGSGF7I69/z1IFu7YwZ6NG1LIW7H314Nk4Y5dxWZ3KseBfyn/MLeWfGUe+LiF2RHLcjZN8c/8CMaOIoPRFZipuvcAawInM+zcB778D/wkjRlXpbOPAAAAAElFTkSuQmCC"/>
