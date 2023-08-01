@@ -11,9 +11,11 @@ function App() {
 
   return (
     <RecoilRoot>
-      <FirstStep/>
-      <SecondStep/>
+    
       <ThirdStep/>
+      <SecondStep/>
+      <FirstStep/>
+
     </RecoilRoot>
     
   );
