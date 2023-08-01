@@ -106,9 +106,6 @@ export function FirstStep(){
           이곳에는 날씨 상황에 대한 그림이 들어올 예정입니다.
         </div>
         
-        <div>
-          이곳에는 일출, 일몰시간이 들어올 예정입니다.
-        </div>
         <button onClick={()=>chpgBtn()}>이 버튼으로 다음 페이지로의 이동이 활성화될 것입니다.</button>
       </div>
     </div>

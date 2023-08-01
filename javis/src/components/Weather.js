@@ -220,7 +220,7 @@ export default function Weather(){
       timeContent += 
         '<div>'
         +`${skyText}`
-        +`<strong>${showCase}</strong>`+'&nbsp'
+        +`<strong>${showCase}시</strong>`+'&nbsp'
         +`<strong>${flyState}</strong>`
         +'&nbsp'
         //습도
@@ -248,6 +248,9 @@ export default function Weather(){
       <div id="timeCtn"></div>
 
     
+      <br/>
+      <br/>
+      <br/>
       
       <div id="sunText">
         <div>
