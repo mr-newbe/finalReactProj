@@ -38,14 +38,12 @@ export function Location(){
 
   return(
     <>
-      <button onClick={loc()}>나의 위치 확인</button>
-      <br/> 
-      {`위도 : ${latitude}`}
-      <br/>
-      {`경도 : ${longitude}`}
-      <br/>
-      {latitude&&longitude?
-      <CacaoAPI Lat={latitude} Lng={longitude}/>:'아직 나타나지 않은 위협'}
+      <span>{loc()}</span>
+      <div className='MapOuterBox'>
+        {latitude&&longitude?
+        <CacaoAPI Lat={latitude} Lng={longitude}/>:''}
+      </div>
+      
       
       
     </>
@@ -56,7 +54,7 @@ export function Location(){
 
 
 const btynstyle = {
-  width:"500px",
+  width:"400px",
   height: "400px",
 }
 const {kakao} = window;

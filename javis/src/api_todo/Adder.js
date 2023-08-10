@@ -99,11 +99,11 @@ export default function AddTask(){
         }
     }).then((response)=>{
     console.log(response.data.sync_token)
-    realSync()
+    //realSync()
     });
   
   }
-
+  /*
   function realSync(){
     axios.post('https://api.todoist.com/sync/v9/sync', {
         commands:[
@@ -127,12 +127,11 @@ export default function AddTask(){
     });
 
   }
-
+  */
   return(
     <>
-      <button onClick={()=>syncBtn()}>시간 체크</button>
-      <input type="text" value={inputValue} onChange={valueChange}/>
-      <button onClick={addItem}>추가</button>
+      <input id="adderIP" type="text" value={inputValue} onChange={valueChange}/>
+      <button id="adderBTN" onClick={addItem}>추가</button>
     </>
   )
 }

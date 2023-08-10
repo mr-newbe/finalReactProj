@@ -1,3 +1,5 @@
+import Month from "../Month/Month"
+import { TodoLoc } from "../api_todo/TodoLocator"
 import TaskForRecoil from "../api_todo/TodoReview"
 import { Blog } from "../components/Blog"
 import Chatting from "../components/Chat"
@@ -62,16 +64,28 @@ export function SecondStep(){
 
   return(
     <div id="two">
-      <TaskForRecoil/>
-      <Location/>
-      <div>
-        이곳에는 오늘의 todo에 관련된 내용이 나올 것입니다.  
+      <div class="flexContent">
+        <div className="towL">
+          
+          <TaskForRecoil/>
+          
+          <Location/>
+        </div>
+        <div className="towRone">
+          <div className="todoDragTime">
+            <TodoLoc/>
+          </div>
+          
+        
+          <button className="chTowBtn" onClick={()=>chpgBtn()}>이곳의 버튼으로 오늘자의 todo가 제출, 저장될 것입니다. </button>
+        </div>
+        <div className="towRtow">
+          <Month/>
+        </div>
       </div>
-      <div>
-        버튼을 누르면 선택 창이 나타나서 시간 설정을 시작합니다.
-      </div>
-
-      <button onClick={()=>chpgBtn()}>이곳의 버튼으로 오늘자의 todo가 제출, 저장될 것입니다. </button>
+      
+      
+      
     </div>
   )
 }

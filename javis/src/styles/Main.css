@@ -45,7 +45,7 @@ video{
 }
 
 .imgSky{
-  width: 30px;
+  width: 10px;
   height: 30px;
 }
 
@@ -130,11 +130,177 @@ video{
   height: 110px;
 }
 
+/* 두번째 페이지에만 적용될 css */
+
+
 #two{
   display: none;
   padding: 0px;
   margin:0px;
 }
+
+#secFont{
+  font-size: 43px;
+  font-style: oblique;
+  font-weight: bold;
+
+  padding-bottom: 7px;
+}
+
+.flexContent{
+  display: flex;
+}
+.towL{
+  margin-left: 10px;
+  height: 900px;
+  width: 390px;
+  
+}
+.towRone{
+  border: 5px blueviolet solid;
+  border-radius: 10px;
+  margin-right: 10px;
+  width: 400px;
+  margin-top: 50px;
+}
+.towRtow{
+  border: 5px blueviolet solid;
+  border-radius: 10px;
+  width: 900px;
+  height: 850px;
+  margin-top: 50px;
+  margin-right: 10px;
+}
+
+
+
+.checkBX{
+  border: 5px blueviolet solid;
+  width: 98%;
+  padding:15px;
+  height: 396px;
+  margin-right: 5px;
+  border-radius: 10px;
+  overflow: auto;
+  
+}
+.checkBX::-webkit-scrollbar {
+  width: 10px;
+}
+
+.checkBX::-webkit-scrollbar-thumb {
+  background-color: #2f3542;
+  border-radius: 10px;
+  
+}
+
+.checkBX::-webkit-scrollbar-track {
+  background-color: grey;
+  border-radius: 10px;
+  box-shadow: inset 0px 0px 5px white;
+}
+
+.adderBX{
+  border: 5px blueviolet solid;
+  padding:5px;
+  margin-top: 2.5px;
+  margin-right: 5px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  width: 98%;
+}
+
+#adderIP{
+  height: 60px;
+  width: 280px;
+  font-size: 20px;
+}
+
+#adderBTN{
+  background-color: green;
+}
+
+.MapOuterBox{
+  border: 5px blue solid;
+  border-radius: 10px;
+  padding: 15px;
+  width: 98%;
+  height: 340px;
+
+}
+
+.sepEle{
+  border: 5px black solid;
+  border-radius: 10px;
+  margin-bottom: 2px;
+  width: 330px;
+  height: 50px;
+}
+
+.fulltime{
+  margin-left: 10px;
+  margin-bottom: 2px;
+  font-weight: 700;
+  background-color: skyblue;
+  padding-top: 5px;
+  border-radius: 5px;
+}
+
+.selTime{
+  display: flex;
+  height: 32px;
+}
+
+
+.tempUn{
+  height: 30px;
+  border-bottom:  2px red;
+  border-style: dashed;
+  margin-top: 2px;
+  
+  
+}
+
+.twoRBtn{
+  margin-top: 18px;
+  margin-right: 5px;
+  width:20px;
+}
+
+
+.RBtn{
+  height: 30px;
+  margin-top: 2px;
+}
+
+
+.tempUn div{
+}
+
+.wrapperTowR{
+  display: flex;
+}
+
+.twoRTime{
+  /* 아직 스타일이 필요하지 않습니다. */ 
+}
+
+.twoRContent{
+  flex: auto;
+  margin-top: 18px;
+  margin-left: 10px;
+  margin-right: 8px;
+
+  
+}
+
+.chTowBtn{
+  width: 95%;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
 
 #three{
   display: none;

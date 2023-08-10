@@ -1,16 +1,28 @@
 import { useRecoilState, useRecoilValue} from "recoil"
 import { Bearer, TaskContent, projID } from "./ContentProv"
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import axios from 'axios';
 import {v4 as uuidv4} from 'uuid';
+import {ReactSortable, Sortable} from "react-sortablejs"
+import styled from "styled-components";
+import { dragState } from "./TodoLocator";
+import { ContPLT } from "./TodoLocator";
+
+const SItem = styled.div`
+  background: lemonchiffon;
+  padding: 50px;
+`
 
 
 //task의 변경과 삭제가 이루어져야 하는 곳이다.
 export default function TaskList(){
-  const contentArray = useRecoilValue(TaskContent);
+  const [contentArray,setContentArr] = useRecoilState(TaskContent);
   console.log("tasklist open");
   return(
     <>
+      
+
+      
       {contentArray.length!==0 ? 
         contentArray.map(data=>(
           <div>
@@ -23,6 +35,7 @@ export default function TaskList(){
           <div>할일을 추가하세요! 시간은 금입니다!!</div>
         </div>  
       }
+
       
     </>
   )
@@ -133,22 +146,79 @@ function TaskItem({item}){
     
   }
 
-  return(
-    <label>
-      <input
-        type="checkbox"
-        checked = {item.done}
-        onChange = {toggleEdit}
-      />
-      {taskContent}
-      <button onClick={deleteItem}>delete</button>
-    </label>
 
+  
+
+  const [items, setitems] = useRecoilState(dragState);
+  const [limit, setLimit] = useState(0);
+  function todragPoint(event){
+    const tgList = document.getElementsByClassName('twoRContent');
+    const tgListChild = tgList[0].getElementsByClassName('tempUn');
+    var temp = [...items];
+    console.log(tgListChild);
+    for(let i=0;i<24;i++){
+      temp[i]=tgListChild[i].innerText;
+    }
+    console.log(temp);
+    setitems(temp);
+    
+
+    for(let i=0;i<24;i++){
+      if(items[i]==="미정"){
+        console.log("체크");
+        
+        var tempTwo = replaceItemAtIndex(temp,i,event.target.className)
+        console.log(tempTwo)
+        
+        setitems(tempTwo);
+        resetTimeL(tempTwo);
+        break;
+      }
+    }
+    
+    
+  }
+
+  
+
+
+  function resetTimeL(temp){
+    const tgList = document.getElementsByClassName('twoRContent');
+    const tgListChild = tgList[0].getElementsByClassName('tempUn');
+    console.log("확인확인");
+    console.log(temp);
+    //객체로 받아져오는 map 반환을 고침
+
+    
+
+    for(let i=0;i<24;i++){
+      tgListChild[i].innerText = temp[i];
+        
+    }
+    
+    setLimit(limit=>limit+1);
+  }
+  return(
+    <>
+    <div className="sepEle">
+      <label>
+        <input
+          type="checkbox"
+          checked = {item.done}
+          onChange = {toggleEdit}
+        />
+        {taskContent}
+        <button onClick={deleteItem}>delete</button>
+      </label>
+      <button className={item.content} onClick={(event)=>todragPoint(event)}>알림</button>
+    </div>
+    
+    </>
   )
 }
 
 
-function replaceItemAtIndex(arr, index, newValue){
+export function replaceItemAtIndex(arr, index, newValue){
   return [...arr.slice(0,index), newValue, ...arr.slice(index+1)];
 }
 //파라미터로 온 인덱스 뒤로 잘라버린다.
