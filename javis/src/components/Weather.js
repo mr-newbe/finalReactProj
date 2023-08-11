@@ -11,6 +11,12 @@ import { dateSet, timeSet } from "./Time";
 import { globLoc } from "./Glocation";
 
 
+//chat에 들어갈 정보 첫번째 : 날씨현황
+export const chatReqData = atom({
+  key:"meaningless",
+  default:""
+})
+
 //나에게 지금 필요한 정보 : 내 위치에 대한 오늘의 날씨 정보
 export default function Weather(){
   const [pgRender, setPgRender] = useState(true);
@@ -154,6 +160,8 @@ export default function Weather(){
       
   },[lat]);
   
+
+
   function parsing(ans){
     const saveCtn = document.getElementById('timeCtn');
     saveCtn.innerHTML = '';
@@ -169,8 +177,9 @@ export default function Weather(){
       return;
     }
     
-    //obj = JSON.parse(obj.body);
-    //console.log(obj);
+    var isClould = 0;
+    var isRain = 0;
+    var isWet = 0;
 
     const categotyJS = ['SKY','PTY','REH','TMP'];
     const obj2 = obj.filter((data)=>categotyJS.includes(data.category))
@@ -179,20 +188,24 @@ export default function Weather(){
 
       //날씨 경보
       var skyState = obj2[i*4+1].fcstValue;
+      console.log(skyState);
       var skyText;
       switch(skyState){
-        case "1":
-          //맑음
+        case "4":
+          //흐림
           skyText = '<img src="https://yogiweather.netlify.app/static/media/icon_night.f8d048e29abde58b26f1.gif" className="imgSky" style="height:110px;width:110px"/></Image>';
-          
+          isClould++;
+          break;
         case "3":
           //구름낌
           skyText = '<img src="data:image/png;base64,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" className="imgSky"/>';
-
+          isClould++;
+          break;
           
-        case "4":
-          //흐림
+        case "1":
+          //맑음
           skyText = '<img src="https://yogiweather.netlify.app/static/media/icon_sun.d5b70715f6b5e6bd11b4.gif" className="imgSky" style="height:110px;width:110px"/></Image>';
+          break;
       }
 
       //비, 눈 경보
@@ -206,6 +219,7 @@ export default function Weather(){
           break;
         case "1":
           flyState = '비';
+          isRain++;
           break;
         case "2":
           flyState = ' 비 또는 눈';
@@ -215,6 +229,7 @@ export default function Weather(){
           break;
         case "4":
           flyState = '소나기'
+          isRain++;
           break;
         //tmx : 최고기온, tmn : 최저기온, reh : 습도 
 
@@ -228,6 +243,7 @@ export default function Weather(){
 
       //습도 표시
       var rehShow = obj2[i*4+3].fcstValue;
+      
 
       var tmpShow = obj2[i*4].fcstValue;
       //console.log(i*12);

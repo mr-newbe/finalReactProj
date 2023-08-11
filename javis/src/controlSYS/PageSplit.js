@@ -44,9 +44,8 @@ export function ThirdStep(){
     <div id="three">
       <Chatting/>
       
-      <div>이곳에는 gpt가 작성해준 일기와 추가적인 작성란이 나타날 것입니다.</div>
       <QuillEditor/>
-      <div>작성이 완료되면 제출 버튼으로 제출합니다.</div>
+      
       <Blog/>
       <button onClick={()=>chpgBtn()}>하루를 마무리하는 버튼</button>
     </div>

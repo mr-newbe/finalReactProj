@@ -2,9 +2,12 @@ import React,{ useState } from "react";
 import Axios from 'axios';
 
 
-function Chatting(){
+function Chatting(props){
   const [question, setQuestion] = useState('');
   const [response, setResponse] = useState('');
+  
+  
+  //
 
   /*
   const handleAskQuestion = async ()=>{
@@ -28,6 +31,13 @@ function Chatting(){
     }
   }
   */
+  //필요한 정보 : 
+  //오늘 가장 많은 지분을 차지한 날씨
+  
+
+  //할일 완료 횟수
+  //완료한 할일 종류
+  //이번달에 있을 일정들
   
   function requestChat(){
     Axios.post('https://api.openai.com/v1/chat/completions',{
@@ -48,7 +58,7 @@ function Chatting(){
     })
   }  
 
-  
+  /*
   function talkWithAi(){
   
     
@@ -63,18 +73,12 @@ function Chatting(){
     
   }
 
-  
+  */
   return(
     <>
-      <button onClick={()=>talkWithAi()}>axios chat gpt 요청</button>
+      
       <br/>
-      <br/>
-      <input 
-        type="text" 
-        value={question} 
-        onChange={(e)=>setQuestion(e.target.value)}
-      />
-      <button onClick={()=>requestChat()}>Ask</button>
+      <button className="autoBtn" onClick={()=>requestChat()}>오늘의 일기 자동 생성</button>
       <div>
         
       </div>

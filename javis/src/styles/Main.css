@@ -321,3 +321,12 @@ video{
   height: 500px;
   
 }
+
+.autoBtn{
+  height: 40px;
+  color: white;
+  font-weight: 600;
+  background-color: blue;
+  border: 2px solid ;
+  border-radius: 10px;
+}
