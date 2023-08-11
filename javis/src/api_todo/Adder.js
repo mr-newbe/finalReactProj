@@ -22,7 +22,7 @@ export default function AddTask(){
     }).then(
       (response)=>{
         console.log("bring data from api");
-        
+        //console.log(response.data[0].content);
         response.data.map((task)=>{
           setTodoList((prevlist)=>[
             ...prevlist,

@@ -40,10 +40,11 @@ function Chatting(){
     },{
       headers:{
         "Content-Type":"application/json",
-        "Authorization":"Bearer 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"
+        "Authorization":"Bearer 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"
       }
     }).then(res=>{
       setResponse(res);
+      console.log(res.data.choices[0].message.content);
     })
   }  
 
@@ -53,7 +54,7 @@ function Chatting(){
     
     Axios.get('https://api.openai.com/v1/models',{
       headers:{
-        Authorization:"Bearer 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",
+        Authorization:"Bearer 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",
         //"OpenAI-Organization":"org-zGIBxCz4ghO934lZXWjw66Lb"
       }
     }).then(()=>{
@@ -75,9 +76,7 @@ function Chatting(){
       />
       <button onClick={()=>requestChat()}>Ask</button>
       <div>
-        <p>
-          {response}
-        </p>
+        
       </div>
           
       

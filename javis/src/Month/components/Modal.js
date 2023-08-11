@@ -10,6 +10,7 @@ const Modal = (props) => {
     setOpenModal,
     userInput,
     setUserInput,
+    saveLocal,
   } = props;
 
   const userText = (e) => {
@@ -34,7 +35,9 @@ const Modal = (props) => {
       </Events>
       <RegistBtn
         onClick={() => {
+          saveLocal(userInput);
           registEvent(userInput);
+          
         }}
       >
         등록

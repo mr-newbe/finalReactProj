@@ -7,7 +7,9 @@ import { Location } from "../components/Glocation"
 import { TimeListener } from "../components/Time"
 import Weather from "../components/Weather"
 import "../styles/Main.css"
-import React from "react";
+import React, { useState } from "react";
+import Axios from 'axios';
+import {v4 as uuidv4} from 'uuid';
 
 import { 
   RecoilRoot,
@@ -16,6 +18,7 @@ import {
   useRecoilValue, 
   useSetRecoilState 
 } from "recoil";
+import QuillEditor from "../components/Quill"
 
 export const sectionSep = atom({
   key:"sepSection",
@@ -40,9 +43,11 @@ export function ThirdStep(){
   return(
     <div id="three">
       <Chatting/>
-      <Blog/>
+      
       <div>이곳에는 gpt가 작성해준 일기와 추가적인 작성란이 나타날 것입니다.</div>
+      <QuillEditor/>
       <div>작성이 완료되면 제출 버튼으로 제출합니다.</div>
+      <Blog/>
       <button onClick={()=>chpgBtn()}>하루를 마무리하는 버튼</button>
     </div>
   )
@@ -55,12 +60,155 @@ export function SecondStep(){
   let twoShow = document.getElementById("two");
   let threeShow = document.getElementById("three");
 
+
+  function twoCG(){
+    const uploadTask = document.getElementsByClassName('tempUn');
+    console.log(uploadTask);
+    var tempARR = []
+    for(let i=0;i<24;i++){
+      tempARR.push(uploadTask[i].innerText);
+    }
+    console.log(tempARR);
+    var startT = new Object();
+    var endT = new Object();
+    var keepGoo = false;
+
+    for(let i=0;i<24;i++){
+      if(tempARR[i]!=="미정"){
+        if(keepGoo===false){
+          keepGoo = true;
+          startT[i] = tempARR[i];
+        }else{ //keepGoo = TRUE, THIS IS NOT 미정
+          if(tempARR[i-1] !== tempARR[i]){
+            endT[tempARR[i-1]] = i-1;
+            startT[i] = tempARR[i];
+            keepGoo = false;
+          }else{ //keepGoo = TRUE, 
+            console.log(i);
+            endT[tempARR[i]] = i;
+          }
+        }
+      }else{
+        if(keepGoo===true && tempARR[i-1]!=="미정"){
+          endT[tempARR[i-1]] = i-1;
+        }
+        keepGoo = false;
+      }
+    }
+    console.log("시작, 종료시간 확인");
+    console.log(startT);
+    console.log(endT);
+
+
+    alarmSetting(startT, endT);
+    alert("미리알림 설정이 완료되었습니다. 오늘의 일정표가 이대로 적용됩니다.")
+    chpgBtn();
+  }
+
+  const [todoList, setTodoList] = useState([]);
+  function alarmSetting(startT, endT){
+    apiExec();
+    console.log("스타라잇");
+    console.log(todoList);
+    //배열속의 배열로 만들어진다
+    const keys = Object.entries(startT);
+    for(let i=0;i<keys.length;i++){
+      for(let j=0;j<todoList.length;j++){
+        if(todoList[j].content===keys[i][1]){
+          axiosReq(todoList[j].id,keys[i][0])
+        }
+      }
+    }
+    
+  }
+  function axiosReq(id, startTime){
+    
+    
+    if(startTime<10){
+      var inputTime = '0'+startTime;
+    }else{
+      var inputTime = startTime;
+    }
+
+    let today = new Date();
+    if((today.getMonth()+1)<10){
+      var month = '0'+(today.getMonth()+1);
+    }else{
+      var month = today.getMonth()+1;
+    }
+
+    if((today.getDate()+1)<10){
+      var day = '0'+(today.getDate()+1);
+      
+    }else{
+      var day = today.getDate()+1;
+    }
+
+    let onAdd = today.getFullYear()+'-'+(month)+'-'+(day);
+    console.log(onAdd);
+
+    const data = {
+      commands: [
+        {
+          type: 'reminder_add',
+          temp_id: uuidv4(),
+          uuid: uuidv4(),
+          args: {
+            item_id: id,
+            due: {
+              date: `${onAdd}T${inputTime}:00:00.000000Z`
+            }
+          }
+        }
+      ]
+    };
+    const config = {
+      headers: { Authorization: 'Bearer 1a5cfa550336f246d80e0b43f8045d003b034002' }
+    };
+    Axios.post('https://api.todoist.com/sync/v9/sync', data, config)
+      .then((result) => {
+        console.log(result.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    
+  }
+  
+  function apiExec(){
+    
+    Axios.get(`https://api.todoist.com/rest/v2/tasks?project_id=2315922358`,{
+      headers:{
+        Authorization:`Bearer 1a5cfa550336f246d80e0b43f8045d003b034002`,
+        
+      }
+    }).then(
+      (response)=>{
+        console.log("bring data from api");
+        
+        response.data.map((task)=>{
+          setTodoList((prevlist)=>[
+            ...prevlist,
+            {
+              id: task.id, //not fixed!!
+              content:task.content,
+            }
+          ]);
+        })
+
+      }
+    )
+  }
+    
+
   function chpgBtn(){
     setChPg(3);
     threeShow.style = "display:block";
     twoShow.style = "display:none";
     
   }
+
+  
 
   return(
     <div id="two">
@@ -76,8 +224,8 @@ export function SecondStep(){
             <TodoLoc/>
           </div>
           
-        
-          <button className="chTowBtn" onClick={()=>chpgBtn()}>이곳의 버튼으로 오늘자의 todo가 제출, 저장될 것입니다. </button>
+
+          <button className="chTowBtn" onClick={()=>twoCG()}>이곳의 버튼으로 오늘자의 todo가 제출, 저장될 것입니다. </button>
         </div>
         <div className="towRtow">
           <Month/>

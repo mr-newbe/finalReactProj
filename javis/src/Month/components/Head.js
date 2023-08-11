@@ -23,7 +23,10 @@ const Head = (props) => {
         <Year>
           {year}년 {month}월
         </Year>
+        
         <BtnBox>
+          
+          
           <Btn onClick={() => notMinus()}>&lt;</Btn>
           <Btn width="3vw" onClick={() => goToday()}>
             오늘
@@ -71,6 +74,8 @@ const Btn = styled.li`
   font-size: 0.78rem;
   cursor: pointer;
 `;
+
+
 const Days = styled.div`
   display: flex;
   margin-bottom: 0.5vw;

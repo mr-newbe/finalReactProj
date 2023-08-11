@@ -184,6 +184,9 @@ video{
   overflow: auto;
   
 }
+
+
+
 .checkBX::-webkit-scrollbar {
   width: 10px;
 }
@@ -306,4 +309,15 @@ video{
   display: none;
   padding: 0px;
   margin:0px;
+
+  margin-top: 80px;
+  margin-left: 550px;
+  width: 40%;
+}
+
+
+.quillContainer{
+  margin-top: 10px;
+  height: 500px;
+  
 }

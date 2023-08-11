@@ -2,19 +2,104 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Modal from './Modal';
 
+
+
 const Dates = (props) => {
-  const { lastDate, firstDate, elm, findToday, month, year, idx, holiday } =
+  const { allArr,lastDate, firstDate, elm, findToday, month, year, idx, holiday } =
     props;
 
   const [userInput, setUserInput] = useState({});
   const [evtList, setEvtList] = useState([]);
   const [openModal, setOpenModal] = useState(false);
+  
   let dateKey = `${month}` + `${elm}`;
   const registEvent = (value) => {
     setEvtList([...evtList, value]);
     setUserInput('');
     setOpenModal(false);
   };
+
+  useEffect(()=>{
+    try{
+      var arrLocal = window.localStorage.getItem('MthEvt');  
+    }catch(error){
+      console.error(error);
+    }
+    
+    if(arrLocal!==null){
+      const chg = JSON.parse(arrLocal);
+      
+      if(chg[dateKey]===undefined){
+        return;
+      }
+
+     
+      console.log(chg[dateKey].length)
+      
+      for(let i=0;i<chg[dateKey].length;i++){
+        const value = dateKey+'_'+chg[dateKey][i]
+        setEvtList((evtList)=>[...evtList, value]);
+
+        //registEvent(dateKey+'_'+chg[dateKey][i])
+    
+        console.log(chg[dateKey][i])
+      }
+      
+    }
+  },[])
+
+  const saveToLocal = (lister)=>{
+    
+    console.log("인풋과 유저인풋이 차례로 나타납니다.");
+    const input = lister.slice(lister.indexOf('_')+1);
+    console.log(input);
+
+
+    try{
+      var arrLocal = window.localStorage.getItem('MthEvt');  
+    }catch(error){
+      console.error(error);
+    }
+    
+
+    var objNew = new Object();
+    console.log(arrLocal);
+    if(arrLocal===null){
+      var arrNew = [input]
+      objNew[dateKey] = arrNew;
+      console.log(objNew);
+      const toLoc = JSON.stringify(objNew);
+      window.localStorage.setItem('MthEvt',toLoc);
+    }else{
+
+      const chg = JSON.parse(arrLocal);
+      console.log(chg);
+      const localKeys = Object.keys(chg);
+      
+      var keyLeng = localKeys.length;
+      var ifCheck = false;
+      for(let i=0;i<keyLeng;i++){
+        console.log(i);
+        if(localKeys[i]===dateKey){
+          objNew[localKeys[i]] = [...chg[localKeys[i]],input];
+          ifCheck = true;
+        }else{
+          objNew[localKeys[i]] = [...chg[localKeys[i]]];
+        }
+      }
+      if(ifCheck===false){
+        objNew[dateKey] = [input];
+      }
+
+
+      window.localStorage.removeItem('MthEvt');
+      const toLoc = JSON.stringify(objNew);
+      window.localStorage.setItem('MthEvt',toLoc);
+
+    }
+
+    
+  }
   //console.log(holiday)
   return (
     <>
@@ -41,6 +126,7 @@ const Dates = (props) => {
             openModal={openModal}
             userInput={userInput}
             setUserInput={setUserInput}
+            saveLocal={saveToLocal}
           />
         )}
         {holiday !== undefined && (
@@ -64,6 +150,7 @@ const Dates = (props) => {
         )}
         {Boolean(evtList[0]) && (
           <Lists>
+            {console.log(evtList)}
             {evtList.map((list, index) => {
               return (
                 list.slice(0, list.indexOf('_')) === dateKey && (
@@ -124,7 +211,22 @@ const Lists = styled.div`
   display: flex;
   flex-direction: column;
   text-align: left;
-  
+  overflow: auto;
+  height: 85px;
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #2f3542;
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: grey;
+    border-radius: 10px;
+    box-shadow: inset 0px 0px 5px white;
+  }
   /*
   :nth-child(7n + 1),
   :nth-child(7n) {
@@ -133,6 +235,7 @@ const Lists = styled.div`
   }
   */
 `;
+
 const List = styled.span`
   margin-top: 0.3vw;
   padding-left: 0.5vw;
