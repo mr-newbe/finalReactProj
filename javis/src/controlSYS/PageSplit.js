@@ -5,7 +5,7 @@ import { Blog } from "../components/Blog"
 import Chatting from "../components/Chat"
 import { Location } from "../components/Glocation"
 import { TimeListener } from "../components/Time"
-import Weather from "../components/Weather"
+import Weather, { chatReqData } from "../components/Weather"
 import "../styles/Main.css"
 import React, { useState } from "react";
 import Axios from 'axios';
@@ -19,6 +19,7 @@ import {
   useSetRecoilState 
 } from "recoil";
 import QuillEditor from "../components/Quill"
+import { MiddleComp } from "../components/TodoCheck"
 
 export const sectionSep = atom({
   key:"sepSection",
@@ -52,22 +53,59 @@ export function ThirdStep(){
   )
 }
 
+export function MiddleMan(){
+  const [chPg, setChPg] = useRecoilState(sectionSep); 
+  
+  let threeShow = document.getElementById("three");
+  let middleShow = document.getElementById("twoMiddleThree");
+
+  
+  function chpgBtn(){
+    setChPg(3);
+    threeShow.style = "display:block";
+    middleShow.style = "display:none";
+    
+  }
+  
+
+  return(
+    <div id="twoMiddleThree">
+
+      <MiddleComp/>
+      <button className="diaryMove" onClick={()=>chpgBtn()}>일기로 이동하는 버튼</button>
+    </div>
+  )
+}
+
 export function SecondStep(){
 
   const [chPg, setChPg] = useRecoilState(sectionSep); 
+  const [chatD, setChatD] = useRecoilState( chatReqData)
 
   let twoShow = document.getElementById("two");
-  let threeShow = document.getElementById("three");
+  let middleShow = document.getElementById("twoMiddleThree");
 
 
   function twoCG(){
     const uploadTask = document.getElementsByClassName('tempUn');
+    console.log("업로드 지지지지징")
     console.log(uploadTask);
     var tempARR = []
     for(let i=0;i<24;i++){
       tempARR.push(uploadTask[i].innerText);
     }
     console.log(tempARR);
+
+    //chat에 필요한 두번째 데이터 전달
+    const arrString = JSON.stringify(tempARR);
+
+    window.localStorage.setItem('todo',arrString);
+
+    
+    var dataD = [...chatD];
+    dataD[1] = tempARR;
+    setChatD(dataD);
+    
     var startT = new Object();
     var endT = new Object();
     var keepGoo = false;
@@ -106,11 +144,13 @@ export function SecondStep(){
 
   const [todoList, setTodoList] = useState([]);
   function alarmSetting(startT, endT){
+    setTodoList([])
     apiExec();
     console.log("스타라잇");
     console.log(todoList);
     //배열속의 배열로 만들어진다
     const keys = Object.entries(startT);
+    console.log(keys);
     for(let i=0;i<keys.length;i++){
       for(let j=0;j<todoList.length;j++){
         if(todoList[j].content===keys[i][1]){
@@ -123,28 +163,25 @@ export function SecondStep(){
   function axiosReq(id, startTime){
     
     
-    if(startTime<10){
-      var inputTime = '0'+startTime;
-    }else{
-      var inputTime = startTime;
-    }
+    
 
     let today = new Date();
-    if((today.getMonth()+1)<10){
-      var month = '0'+(today.getMonth()+1);
-    }else{
-      var month = today.getMonth()+1;
-    }
+    
+    
 
-    if((today.getDate()+1)<10){
-      var day = '0'+(today.getDate()+1);
-      
-    }else{
-      var day = today.getDate()+1;
-    }
 
-    let onAdd = today.getFullYear()+'-'+(month)+'-'+(day);
-    console.log(onAdd);
+    // Date 객체 생성
+    const date = new Date(today.getFullYear(),today.getMonth(),today.getDate(),startTime);
+
+    
+    
+    // ISO-8601 형식으로 변환
+    const iso = date.toISOString();
+
+    // 결과 출력
+    console.log("iso : "+iso);
+
+     
 
     const data = {
       commands: [
@@ -155,7 +192,7 @@ export function SecondStep(){
           args: {
             item_id: id,
             due: {
-              date: `${onAdd}T${inputTime}:00:00.000000Z`
+              date: iso
             }
           }
         }
@@ -201,8 +238,8 @@ export function SecondStep(){
     
 
   function chpgBtn(){
-    setChPg(3);
-    threeShow.style = "display:block";
+    setChPg(2.5);
+    middleShow.style = "display:block";
     twoShow.style = "display:none";
     
   }
@@ -238,8 +275,7 @@ export function SecondStep(){
 }
 
 export function FirstStep(){
-  let oneShow = document.getElementById("one");
-  let twoShow = document.getElementById("two");
+  
   const [chPg, setChPg] = useRecoilState(sectionSep); 
 
   function chpgBtn(){

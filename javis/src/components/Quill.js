@@ -14,11 +14,12 @@ import {storage} from "../Firebase";
 import {uploadBytes, getDownloadURL, ref} from "firebase/storage";
 
 
+
 export default function QuillEditor(){
     const quillRef = useRef();
     const [content, setContent] = useState("");
 
-
+    
     
     const imageHandler = () => {
         const input = document.createElement("input");

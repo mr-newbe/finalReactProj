@@ -46,6 +46,10 @@ export function TodoLoc(){
     timeTable.push(i);
   }
 
+  const [items, setItems] = useRecoilState(dragState);
+  console.log("아이템즈아리");
+
+  
 
   useEffect(() => {
     const columns = document.querySelectorAll(".twoRContent");
@@ -56,9 +60,20 @@ export function TodoLoc(){
       });
     });
   });
+
+  useEffect(()=>{
+    try{
+      const localItem = window.localStorage.getItem('todo');
+      const localArr = JSON.parse(localItem);
+      setItems(localArr);
+    }catch(error){
+      console.error(error)
+      return;
+    }
+    
+  },[])
   
-  const [items, setItems] = useRecoilState(dragState);
-  console.log("아이템즈아리");
+ 
 
   function resetBtn(event){
     const tgList = document.getElementsByClassName('twoRContent');
@@ -74,15 +89,14 @@ export function TodoLoc(){
     setItems(temp);
     console.log(temp[0]);
     
-    var tempTwo = [...temp];
+    
     /*
     var tempTwo = replaceItemAtIndex(temp,event.target.id,"미정");
     console.log("미정으로 바꿈")
     console.log(tempTwo);
     */
-    setItems(tempTwo);
     for(let i=0;i<24;i++){
-      tgListChild[i].innerText = tempTwo[i];
+      tgListChild[i].innerText = temp[i];
         
     }
     
@@ -113,7 +127,7 @@ export function TodoLoc(){
 
 //현재 작업 현장
 export function ContPLT(props){
-
+  
   return(
     <div className="tempUn">
       {props.content}

@@ -11,10 +11,10 @@ import { dateSet, timeSet } from "./Time";
 import { globLoc } from "./Glocation";
 
 
-//chat에 들어갈 정보 첫번째 : 날씨현황
+//chat에 들어갈 정보 첫번째 : 날씨현황(날씨현황, todo완성도, 완성일, 미완성일, 최근 일정)
 export const chatReqData = atom({
   key:"meaningless",
-  default:""
+  default:[0,0,0,0,0]
 })
 
 //나에게 지금 필요한 정보 : 내 위치에 대한 오늘의 날씨 정보
@@ -161,6 +161,7 @@ export default function Weather(){
   },[lat]);
   
 
+  const [chatD,setChat] = useRecoilState(chatReqData)
 
   function parsing(ans){
     const saveCtn = document.getElementById('timeCtn');
@@ -179,11 +180,12 @@ export default function Weather(){
     
     var isClould = 0;
     var isRain = 0;
-    var isWet = 0;
+    
 
     const categotyJS = ['SKY','PTY','REH','TMP'];
     const obj2 = obj.filter((data)=>categotyJS.includes(data.category))
     //console.log(obj2);
+
     for(var i=0;i<22;i++){
 
       //날씨 경보
@@ -234,6 +236,15 @@ export default function Weather(){
         //tmx : 최고기온, tmn : 최저기온, reh : 습도 
 
       }
+      
+
+
+
+      
+      
+      
+
+
       //나타날 시간 표시
       if((i+time)>23){
         var showCase = i+time-24;
@@ -268,6 +279,26 @@ export default function Weather(){
       
 
     }
+
+    //데이터 전송(날씨)
+    console.log("미라보기")
+    console.log(chatD);
+    if(isRain>=6){
+      var tempARR = [...chatD];
+      tempARR[0] = "비옴"
+      setChat(tempARR); 
+    }else{
+      if(isClould>=12){
+        var tempARR = [...chatD];
+        tempARR[0] = "흐림"
+        setChat(tempARR);
+      }else{
+        var tempARR = [...chatD];
+        tempARR[0] = "맑음"
+        setChat(tempARR);
+      }  
+    }
+    console.log(tempARR);
     
     saveCtn.innerHTML += timeContent;
     setPgRender((pgRender)=>!pgRender);

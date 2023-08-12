@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useRef } from 'react';
 import styled from 'styled-components';
 import Modal from './Modal';
+import { useRecoilState } from 'recoil';
+import { chatReqData } from '../../components/Weather';
 
 
 
@@ -11,6 +13,9 @@ const Dates = (props) => {
   const [userInput, setUserInput] = useState({});
   const [evtList, setEvtList] = useState([]);
   const [openModal, setOpenModal] = useState(false);
+
+  const [chData, setChData] = useRecoilState(chatReqData);
+
   
   let dateKey = `${month}` + `${elm}`;
   const registEvent = (value) => {
@@ -18,6 +23,7 @@ const Dates = (props) => {
     setUserInput('');
     setOpenModal(false);
   };
+  const inputRef = useRef(null);
 
   useEffect(()=>{
     try{
@@ -26,6 +32,8 @@ const Dates = (props) => {
       console.error(error);
     }
     
+
+    
     if(arrLocal!==null){
       const chg = JSON.parse(arrLocal);
       
@@ -33,8 +41,9 @@ const Dates = (props) => {
         return;
       }
 
-     
-      console.log(chg[dateKey].length)
+      var checked = false;
+      const hto = new Date();
+      var todateKey = (hto.getMonth()+1).toString()+hto.getDate();
       
       for(let i=0;i<chg[dateKey].length;i++){
         const value = dateKey+'_'+chg[dateKey][i]
@@ -42,7 +51,27 @@ const Dates = (props) => {
 
         //registEvent(dateKey+'_'+chg[dateKey][i])
     
-        console.log(chg[dateKey][i])
+        console.log(chg[dateKey][i]);
+        console.log("씨에치보가")
+        console.log(dateKey);
+        console.log(todateKey);
+        
+        
+
+
+        if(!checked){
+          if(todateKey*1<dateKey*1){
+            checked = true;
+            var temp = [...chData]
+            
+            temp[2] = chg[dateKey];
+            
+            setChData(temp);
+            console.log("카페인 없이는 진행되지 않는다")
+            console.log(temp);
+          }
+        }
+      
       }
       
     }
@@ -63,6 +92,7 @@ const Dates = (props) => {
     
 
     var objNew = new Object();
+    console.log("알콜 섭취");
     console.log(arrLocal);
     if(arrLocal===null){
       var arrNew = [input]

@@ -304,6 +304,10 @@ video{
   margin-right: 10px;
 }
 
+#twoMiddleThree{
+  display: none;
+}
+
 
 #three{
   display: none;
@@ -329,4 +333,31 @@ video{
   background-color: blue;
   border: 2px solid ;
   border-radius: 10px;
+}
+
+
+.middleWrapper{
+  display: flex;
+  margin-left: 650px;
+  margin-top: 50px;
+}
+
+.diaryMove{
+  margin-left: 650px;
+  margin-top: 20px;
+
+  width: 450px;
+  color: green;
+}
+
+.MidBtn{
+  width: 90%;
+  height: 31px;
+  
+  color: blue;
+}
+
+.middleBox{
+  
+  width: 500px;
 }

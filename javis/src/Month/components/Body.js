@@ -39,6 +39,7 @@ const Body = (props) => {
       });
       
     } catch (e) {
+      
       console.log(e);
     }
   };

@@ -7,7 +7,7 @@ import {
 } from "recoil";
 
 
-import { FirstStep, SecondStep, ThirdStep } from './controlSYS/PageSplit';
+import { FirstStep, MiddleMan, SecondStep, ThirdStep } from './controlSYS/PageSplit';
 
 function App() {
   
@@ -15,6 +15,7 @@ function App() {
     <RecoilRoot>
     
       <ThirdStep/>
+      <MiddleMan/>
       <SecondStep/>
       <FirstStep/>
 
