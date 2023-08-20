@@ -23,9 +23,9 @@ export function Location(){
     if("geolocation" in navigator){
       console.log("위치 확인 가능");
       navigator.geolocation.getCurrentPosition((position)=>{
-        console.log("경도 :"+position.coords.latitude);
+        //console.log("경도 :"+position.coords.latitude);
         setLatitude(position.coords.latitude);
-        console.log("위도 :"+position.coords.longitude);
+        //console.log("위도 :"+position.coords.longitude);
         setLongitude(position.coords.longitude);
 
         locSetter({Lat:latitude,Lon:longitude});

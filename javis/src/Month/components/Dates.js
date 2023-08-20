@@ -49,15 +49,6 @@ const Dates = (props) => {
         const value = dateKey+'_'+chg[dateKey][i]
         setEvtList((evtList)=>[...evtList, value]);
 
-        //registEvent(dateKey+'_'+chg[dateKey][i])
-    
-        console.log(chg[dateKey][i]);
-        console.log("씨에치보가")
-        console.log(dateKey);
-        console.log(todateKey);
-        
-        
-
 
         if(!checked){
           if(todateKey*1<dateKey*1){
@@ -67,8 +58,6 @@ const Dates = (props) => {
             temp[2] = chg[dateKey];
             
             setChData(temp);
-            console.log("카페인 없이는 진행되지 않는다")
-            console.log(temp);
           }
         }
       
@@ -130,7 +119,6 @@ const Dates = (props) => {
 
     
   }
-  //console.log(holiday)
   return (
     <>
       <Form
@@ -162,7 +150,6 @@ const Dates = (props) => {
         {holiday !== undefined && (
           <Holidays>
             {holiday !== undefined &&
-              //console.log(holiday)
               holiday.map((evt, index) => {
                 console.log("evttttttt");
                 console.log(evt);

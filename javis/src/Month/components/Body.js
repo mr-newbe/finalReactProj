@@ -8,13 +8,11 @@ const Body = (props) => {
   const lastDate = totalDate.indexOf(1);
   const firstDate = totalDate.indexOf(1, 7);
 
-  const [holiday, setHoliday] = useState([]);
+  const [holiday, setHoliday] = useState([0]);
 
   //today
   const findToday = totalDate.indexOf(today);
-  console.log("프롭스 확인")
-  console.log(totalDate);
-  console.log(firstDate);
+  
   const getMonth = new Date().getMonth() + 1;
   console.log("년월 확인 콘솔"+year+('0'+month));
   var rlmonth = month;
@@ -24,18 +22,13 @@ const Body = (props) => {
   const runAxios = async () => {
     try {
        
-      axios.get(
+      
+      await axios.get(
         `http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?solYear=${year}&solMonth=${rlmonth}&ServiceKey=5Ye9UdQcJpPD%2Fl%2F%2B9qyWYs8Uh8Rx97zUo23NJa5BqdGISztWfOJ1wOKQjhjQbXotKJLLkJd%2BtNlikhqcnDnjfA%3D%3D`
       )
       .then((json) => {
         console.log(json.data.response.body.items);
-        if(Array.isArray(json.data.response.body.items)){
-          setHoliday(json.data.response.body.items);
-        }else{
-          setHoliday([json.data.response.body.items]);
-          
-        }
-        
+        setHoliday([json.data.response.body.items]);
       });
       
     } catch (e) {
@@ -53,7 +46,7 @@ const Body = (props) => {
     <Form>
       {totalDate.map((elm, idx) => {
         return (
-          
+          <>
           
           <Dates
             key={idx}
@@ -66,7 +59,7 @@ const Body = (props) => {
             year={year}
             holiday={holiday.item}
           ></Dates>
-          
+          </>
         );
       })}
     </Form>

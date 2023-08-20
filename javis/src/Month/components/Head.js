@@ -17,12 +17,17 @@ const Head = (props) => {
     }
     setMonth(month+1);
   }
+
+  function resetAll(){
+    window.localStorage.removeItem("MthEvt");
+  }
   return (
     <Form>
       <Nav>
         <Year>
           {year}년 {month}월
         </Year>
+        <button onClick={()=>resetAll()}>초기화</button>
         
         <BtnBox>
           

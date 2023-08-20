@@ -14,8 +14,14 @@ import {
 } from "recoil";
 
 import {gapi} from 'gapi-script';
+import { lastRecoil } from './Chat';
+
+
 export function Blog(){
   function authenticate(){
+    const samira = document.getElementById("uploadButton");
+    samira.style="display:block";
+
     return gapi.auth2.getAuthInstance()
       .signIn({scope:"https://www.googleapis.com/auth/blogger"})
       .then(function() {console.log("Sign-in successful");},
@@ -23,26 +29,35 @@ export function Blog(){
   }
 
   function loadClient(){
-    gapi.client.setApiKey("AIzaSyDMSUsUyVl6GArWxsNrInQdSODQKiKUWds");
+    gapi.client.setApiKey("AIzaSyCpZ1Rd8Q0e7sX52CYBX-FUUSupuzUUaYQ");
     return gapi.client.load("https://content.googleapis.com/discovery/v1/apis/blogger/v3/rest")
         .then(function() {console.log("GAPI client loaded for API");},
               function(err){console.error("Error loading GAPI client for API",err);});
 
   }
 
+  const content = useRecoilValue(lastRecoil);
+
+
   function execute(){
+    const dateCal = new Date();
+    
+    var caledDate = dateCal.getDate();
+    if(dateCal.getHours()<4){
+      caledDate --;
+    }
     return gapi.client.blogger.posts.insert({
       "blogId":"1241398970422264012",
       "fetchBody":true,
       "fetchImages":false,
       "isDraft":false,
       "resource":{
-        "title":"my local upload",
-        "content":"rap is the worst study",
+        "title":`${dateCal.getMonth()+1}월 ${caledDate}일자 일기`,
+        "content":content
       }
     })
     .then(function(response){
-      console.log("Response",response);
+      console.log("Response",response)
     },
     function(err){console.log("Execute error",err); });
   }
@@ -53,8 +68,8 @@ export function Blog(){
 
   return(
     <div>
-      <button onClick={()=>authenticate().then(loadClient)}>authorize and load</button>
-      <button onClick={()=>execute()}>execute</button>
+      <button onClick={()=>authenticate().then(loadClient)}>일기 업로드 인증</button>
+      <button id="uploadButton" onClick={()=>execute()}>만든 일기 게시</button>
     </div>
   )
 }

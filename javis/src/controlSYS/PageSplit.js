@@ -1,5 +1,5 @@
 import Month from "../Month/Month"
-import { TodoLoc } from "../api_todo/TodoLocator"
+import { TodoLoc, dragState } from "../api_todo/TodoLocator"
 import TaskForRecoil from "../api_todo/TodoReview"
 import { Blog } from "../components/Blog"
 import Chatting from "../components/Chat"
@@ -20,6 +20,7 @@ import {
 } from "recoil";
 import QuillEditor from "../components/Quill"
 import { MiddleComp } from "../components/TodoCheck"
+import Quote from "../components/Quote"
 
 export const sectionSep = atom({
   key:"sepSection",
@@ -53,19 +54,93 @@ export function ThirdStep(){
   )
 }
 
+
+
 export function MiddleMan(){
   const [chPg, setChPg] = useRecoilState(sectionSep); 
   
   let threeShow = document.getElementById("three");
   let middleShow = document.getElementById("twoMiddleThree");
-
-  
+  const [chatD, setChatD] = useRecoilState(chatReqData);  
   function chpgBtn(){
+    setToLoc()
     setChPg(3);
     threeShow.style = "display:block";
     middleShow.style = "display:none";
     
   }
+
+  function setToLoc(){
+    const allWork = document.getElementsByClassName("MidBtn");
+    var chArr = [...allWork];
+    var donePercent=[0,0];
+    var done=[];
+    var notDone = [];
+    console.log(chArr);
+    for(let i=0;i<24;i++){
+      //가져와야하는 데이터 : 어떤 버튼을 눌렀는지 확인
+      if(chArr[i].innerText!=="미정")
+      {
+        if(chArr[i].style.backgroundColor==="green"){
+          if(chArr[i-1].innerText!==chArr[i].innerText){
+            done.push(chArr[i].innerText);
+            donePercent[0]++;
+          }
+        }else{
+          notDone.push(chArr[i].innerText);
+        }
+        donePercent[1]++;
+      }
+    }
+    console.log("done");
+    console.log(done);
+    console.log("notDone");
+    console.log(notDone);
+
+    var temp = [...chatD]
+    temp[1] = (donePercent[0]/donePercent[1])*100
+    
+    temp[2] = [...done];
+
+    temp[3] = [...notDone];
+    
+
+    //최근 할일 ver 달력
+    const lastWork = window.localStorage.getItem("MthEvt");
+
+    const dateCtrl = new Date();
+    var newChar = dateCtrl.getMonth()
+    console.log(newChar);
+    const toTemp = JSON.parse(lastWork);
+    var keys = Object.keys(toTemp);
+    for(let i=0;i<keys.length;i++){
+      
+      if(dateCtrl.getMonth()>=10){
+        if((newChar+1)===keys[i].slice(0,2)){
+          if(dateCtrl.getDate() < keys[i].slice[2]){
+            temp[4] = lastWork[keys[i]];
+            break;
+          }
+        }
+      }else{
+        if((newChar+1)===keys[i][0]*1){
+          if(dateCtrl.getDate() < keys[i].slice(1)){
+            console.log("!!!!");
+            temp[4] = [keys[i][0]+'_'+keys[i].slice(1),toTemp[keys[i]]];
+            break;
+          }
+        }
+      }
+    }
+
+
+    //정리한 temp 반환
+    console.log("정리본 봔환");
+    console.log(temp);
+    setChatD(temp);
+  }
+
+  
   
 
   return(
@@ -96,9 +171,8 @@ export function SecondStep(){
     }
     console.log(tempARR);
 
-    //chat에 필요한 두번째 데이터 전달
+    //todo에 필요한 정보 전달
     const arrString = JSON.stringify(tempARR);
-
     window.localStorage.setItem('todo',arrString);
 
     
@@ -140,6 +214,32 @@ export function SecondStep(){
     alarmSetting(startT, endT);
     alert("미리알림 설정이 완료되었습니다. 오늘의 일정표가 이대로 적용됩니다.")
     chpgBtn();
+
+    middleChpg();
+  }
+  const [item, setItem] = useRecoilState(dragState);
+  function middleChpg(){
+    
+    const nextTest = document.getElementsByClassName("tempUn");
+
+
+    var tempArr=[];
+    
+
+    console.log("아이템 시전")
+    console.log(item);
+
+    
+    const nextBox = document.getElementsByClassName("MidBtn");
+
+    for(let i=0;i<24;i++){
+      nextBox[i].innerText = nextTest[i].innerText;
+
+      tempArr.push(nextTest[i].innerText) 
+    }
+
+
+    setItem(tempArr);
   }
 
   const [todoList, setTodoList] = useState([]);
@@ -311,6 +411,7 @@ export function FirstStep(){
         <Weather/>
         
         <br/>
+        <Quote/>
         <br/>
         <button id="pgOneBtn" onClick={()=>chpgBtn()}>이 버튼으로 다음 페이지로의 이동이 활성화될 것입니다.</button>
       </div>

@@ -12,15 +12,16 @@ import 'react-quill/dist/quill.snow.css';
 import {useMemo, useRef, useState} from "react";
 import {storage} from "../Firebase";
 import {uploadBytes, getDownloadURL, ref} from "firebase/storage";
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { lastRecoil } from './Chat';
 
 
 
 export default function QuillEditor(){
     const quillRef = useRef();
-    const [content, setContent] = useState("");
+    const [content, setContent] = useRecoilState(lastRecoil);
+    
 
-    
-    
     const imageHandler = () => {
         const input = document.createElement("input");
         input.setAttribute("type", "file");
@@ -73,6 +74,7 @@ export default function QuillEditor(){
     
 
     return(
+      <>
         <div className='quillContainer'>
             <ReactQuill
                 style={{ width: "600px", height: "450px" }}
@@ -84,5 +86,6 @@ export default function QuillEditor(){
                 modules={modules}
             />
         </div>
+       </>
     )
 }

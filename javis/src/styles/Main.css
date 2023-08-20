@@ -21,7 +21,25 @@
     
 }
 
+.qutteMom{
+  border-radius: 10px;
+  padding-top: 8px;
+  height: 60px;
+  width: 400px;
+  font-size: 15px;
+  font-style: oblique;
+  margin-left: 650px;
+  background-color: grey;
+}
 
+.qutteMom button{
+  background-color: green;
+  color: white;
+  margin-top: 8px;
+  border-radius: 10px;
+  width: 200px;
+  box-shadow: 10px;
+}
 
 video{
   width:100%;

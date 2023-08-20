@@ -14,7 +14,7 @@ export default function AddTask(){
   
   //내 기존 totolist와 동기화
   useEffect(() => {
-    axios.get(`https://api.todoist.com/rest/v2/tasks?project_id=2315922358`,{
+    axios.get(`https://api.todoist.com/rest/v2/tasks`,{
       headers:{
         Authorization:`Bearer 1a5cfa550336f246d80e0b43f8045d003b034002`,
         
@@ -45,11 +45,8 @@ export default function AddTask(){
     axios.post(`https://api.todoist.com/rest/v2/tasks`,{
       //project_id:`${projectID}`,
       content:`${inputValue}`,
-      due_string:"tomorrow at 12:15",
-      due_lang:"en",
-      priority:1,
-      is_recurring:true
-      
+      order:"4",
+      priority:"4"
     },
     {headers: {
       'Content-Type' : 'application/json',
@@ -103,31 +100,7 @@ export default function AddTask(){
     });
   
   }
-  /*
-  function realSync(){
-    axios.post('https://api.todoist.com/sync/v9/sync', {
-        commands:[
-          {
-            type:"reminder_add",
-            uuid:uuidv4(),
-            temp_id: uuidv4(),
-            args:{
-            "item_id":"7089953112",
-            "minute_offset":30
-            }
-          }
-        ]
-        
-    }, {
-        headers: {
-            Authorization: `Bearer ${bearerID}`
-        }
-    }).then((response)=>{
-    console.log(response)
-    });
-
-  }
-  */
+  
   return(
     <>
       <input id="adderIP" type="text" value={inputValue} onChange={valueChange}/>

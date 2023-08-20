@@ -64,9 +64,21 @@ export function TodoLoc(){
   useEffect(()=>{
     try{
       const localItem = window.localStorage.getItem('todo');
-      const localArr = JSON.parse(localItem);
-      setItems(localArr);
+      console.log("미확인")
+      console.log(localItem);
+      if(localItem===null){
+        var temp=[];
+        for(let i=0;i<24;i++){
+          temp.push("미정");
+        }
+        setItems(temp);
+      }else{
+        const localArr = JSON.parse(localItem);
+        setItems(localArr);
+      }
+      
     }catch(error){
+      
       console.error(error)
       return;
     }
@@ -79,6 +91,7 @@ export function TodoLoc(){
     const tgList = document.getElementsByClassName('twoRContent');
     const tgListChild = tgList[0].getElementsByClassName('tempUn');
     var temp = [...items];
+    console.log("확인 전 절차");
     console.log(tgListChild);
     
     //화면 배치도 적용
@@ -86,8 +99,9 @@ export function TodoLoc(){
       temp[i]=tgListChild[i].innerText;
     }
     temp[event.target.id] = "미정"
+  
     setItems(temp);
-    console.log(temp[0]);
+    console.log(temp);
     
     
     /*

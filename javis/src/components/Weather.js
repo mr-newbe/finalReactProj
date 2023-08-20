@@ -65,9 +65,9 @@ export default function Weather(){
   }
   
   //위경도 ==> xy좌표
-  console.log(exLoc);
+  //console.log(exLoc);
   const lat = exLoc.Lat;
-  console.log(lat);
+  //console.log(lat);
   const lon = exLoc.Lon;
   var xy = dfs_xy_conv("toXY",lat, lon);
   
@@ -101,9 +101,9 @@ export default function Weather(){
       console.log("치명적 에러")
       return console.error;
     }
-    console.log(lat);
-    console.log(xy);
-    console.log("베이스타임"+baseTime);
+    //console.log(lat);
+    //console.log(xy);
+    //console.log("베이스타임"+baseTime);
 
     var url = 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst'; /*URL*/
     var queryParams = '?' + encodeURIComponent('serviceKey') + `=${weatherKey}`; /*Service Key*/
@@ -152,7 +152,7 @@ export default function Weather(){
 
   
   useEffect(()=>{
-    console.log(lat);
+    //console.log(lat);
     
     if(lat!==undefined){
       sunriseAPI();
@@ -172,7 +172,7 @@ export default function Weather(){
     }
     var timeContent='';
     try{
-      var obj = ans.data.response.body.items.item;
+      var obj =  ans.data.response.body.items.item;
     }catch (error){
       console.log(error);
       return;
@@ -195,18 +195,18 @@ export default function Weather(){
       switch(skyState){
         case "4":
           //흐림
-          skyText = '<img src="https://yogiweather.netlify.app/static/media/icon_night.f8d048e29abde58b26f1.gif" className="imgSky" style="height:110px;width:110px"/></Image>';
+          skyText = '<img src="https://cdn.pixabay.com/photo/2013/04/01/09/22/clouds-98536_1280.png" className="imgSky" style="height:110px;width:110px"/></Image>';
           isClould++;
           break;
         case "3":
           //구름낌
-          skyText = '<img src="data:image/png;base64,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" className="imgSky"/>';
+          skyText = '<img src="https://cdn.pixabay.com/photo/2012/05/07/02/11/cloud-47582_1280.png" style="height:110px;width:110px" className="imgSky"/>';
           isClould++;
           break;
           
         case "1":
           //맑음
-          skyText = '<img src="https://yogiweather.netlify.app/static/media/icon_sun.d5b70715f6b5e6bd11b4.gif" className="imgSky" style="height:110px;width:110px"/></Image>';
+          skyText = '<img src="https://cdn.pixabay.com/photo/2013/07/13/12/12/sun-159392_1280.png" className="imgSky" style="height:110px;width:110px"/></Image>';
           break;
       }
 
@@ -221,6 +221,7 @@ export default function Weather(){
           break;
         case "1":
           flyState = '비';
+          skyText = '<img src="https://cdn.pixabay.com/photo/2013/04/01/09/22/rain-98538_1280.png" className="imgSky" style="height:110px;width:110px"/></Image>';
           isRain++;
           break;
         case "2":
@@ -228,6 +229,7 @@ export default function Weather(){
           break;
         case "3":
           flyState = ' 눈';
+          skyText = '<img src="https://cdn.pixabay.com/photo/2016/03/31/15/22/christmas-1293227_1280.png" className="imgSky" style="height:110px;width:110px"/></Image>';
           break;
         case "4":
           flyState = '소나기'
@@ -307,7 +309,7 @@ export default function Weather(){
   }
 
   useEffect(()=>{
-    console.log(lat);
+    //console.log(lat);
     
     if(lat!==undefined){
       requestWeather();
